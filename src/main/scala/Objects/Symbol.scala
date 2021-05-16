@@ -8,10 +8,11 @@ object Symbol
   private var or = "v";
   private var not = "~";
   private var implication = ">";
+  private var leftImplication = "<";
   private var leftClosure = "(";
   private var rightClosure = ")";
 
-  private var Operators = Set(and, or, not, implication);
+  private var Operators = Set(and, or, not, implication, leftImplication);
   private var Closures = Set(leftClosure, rightClosure);
   private var Symbols = Operators ++ Closures;
 
@@ -22,6 +23,8 @@ object Symbol
   def isAnd(candidate: String) = candidate == and;
   def isOr(candidate: String) = candidate == or;
   def isNot(candidate: String) = candidate == not;
+  def isImplication(candidate: String) = candidate == implication;
+  def isLeftImplication(candidate: String) = candidate == leftImplication;
   def isLeftClosure(candidate: String) = candidate == leftClosure;
   def isRightClosure(candidate: String) = candidate == rightClosure;
 
