@@ -17,8 +17,12 @@ class TruthTableHandler(rows: Int, cols: Int, symbols: Array[Char]) {
   }
 
   def generateTruthTable(expression: String): Array[Array[Boolean]] = {
+    println("Generate Truth Table | expression: " + expression)
+    println("Rows: " + rows)
     for(subset <- 0 until rows){
-      var subsetBits: String = toBinary(subset)
+      //("Subset: " + subset)
+      //var subsetBits: String = toBinary(subset)
+      var subsetBits: String = subset.toBinaryString
       var substitutedExpression: String = expression
 
       while(subsetBits.length() < vars){
@@ -28,14 +32,13 @@ class TruthTableHandler(rows: Int, cols: Int, symbols: Array[Char]) {
       for(i <- 0 until subsetBits.length()){
         truthTable(subset)(i) = (subsetBits.charAt(i) == '1')
       }
-
       var i = 0
-
       for(symbol <- symbols){
-        i = i + 1
-        substitutedExpression = substitutedExpression.replaceAll(symbol + "", subsetBits.charAt(i) + "")
-      }
+        println("SubsetBits symbol: " + symbol + " | i = " + i)
 
+        substitutedExpression = substitutedExpression.replaceAll(symbol + "", subsetBits.charAt(i) + "")
+        i = i + 1
+      }
       val truthValue = { expressionEvaluator.getTruthValue(substitutedExpression) }
       truthTable(subset)(cols - 1) = truthValue
     }
@@ -47,7 +50,7 @@ class TruthTableHandler(rows: Int, cols: Int, symbols: Array[Char]) {
       return false
     }
 
-    for(i <- 0 until truthTable.length){
+    for(i <- truthTable.indices){
       if(!truthTable(i)(truthTable(0).length - 1).equals(comparedTruthtable(i)(comparedTruthtable(0).length - 1))){
         false
       }

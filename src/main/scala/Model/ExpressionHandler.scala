@@ -2,33 +2,39 @@ package Model
 
 import scala.collection.mutable
 
-class ExpressionHandler {
+class ExpressionHandler(var expression: String) {
   var truthTable: Array[Array[Boolean]]  = Array.ofDim[Boolean](0, 0)
-  var expression: String = " "
+  var freq = new mutable.HashMap[Char, Int]()
+  freq = getFreqMap
+  var symbols: Array[Char] = initSymbols()
+  var numberOfVariables: Int = initNumberOfVariables()
   var cols: Int = calcCols()
   var rows: Int = calcRows()
-  var symbols: Array[Char] = initSymbols()
   var truthTableHandler = new TruthTableHandler(rows, cols, symbols)
-  var numberOfVariables: Int = initNumberOfVariables()
   var tautology = false
   var contradiction = false
-  val freq = new mutable.HashMap[Char, Int]()
+
 
 
   def getFreqMap: mutable.HashMap[Char, Int] = {
-
+    //("Loading signs")
     for(c <- expression.toCharArray){
+      //println("Process: " + c)
       if(Character.isAlphabetic(c) && !c.equals('v') && !c.equals('V')) {
         if(freq.isDefinedAt(c)){
+          //println("Is already defined")
           var t = 0
           for(i <- freq.get(c)) { t = i }
           t += 1
           freq.put(c, t)
         }
-      } else {
-        freq.put(c, 1)
+        else {
+          //println("New sign")
+          freq.put(c, 1)
+        }
       }
     }
+    //println(freq)
     freq
   }
 
@@ -61,7 +67,7 @@ class ExpressionHandler {
   }
 
   def initTruthTable(): Unit = {
-    truthTableHandler.generateTruthTable(this.expression)
+    truthTable = truthTableHandler.generateTruthTable(this.expression)
   }
 
   def getTruthTable: Array[Array[Boolean]] = {
@@ -81,7 +87,7 @@ class ExpressionHandler {
 
   def testTautology(): Unit = {
     for(row <- truthTable; i <- row.indices) {
-        if((row(i)).eq(false)) {
+        if(!row(i)) {
           tautology = false
           return
       }
@@ -91,7 +97,7 @@ class ExpressionHandler {
 
   def testContradiction(): Unit = {
     for(row <- truthTable; i <- row.indices) {
-      if((row(i)).eq(true)) {
+      if(row(i)) {
         tautology = false
         return
       }
@@ -108,6 +114,34 @@ class ExpressionHandler {
 
   def isEquivalence(comparedTrutTable: Array[Array[Boolean]]): Boolean = {
     truthTableHandler.testEquivalence(truthTable, comparedTrutTable)
+  }
+
+  def showTruthTable(): Unit =
+  {
+    if(truthTable.length == 0){
+      initTruthTable()
+    }
+
+    println("Expression: " + expression)
+    var row = ""
+    for(i <- symbols.indices){
+      val symbol = symbols(i)
+      val spaces = 5
+      row = row + symbol + "     |"
+
+    }
+    row = row + "Result|"
+    println(row)
+    for(i <- truthTable.indices){
+      row = ""
+      for(j <- truthTable(i).indices){
+        row = row + truthTable(i)(j)
+        if(truthTable(i)(j)) row = row + "  |"
+        else row = row + " |"
+
+      }
+      println(row)
+    }
   }
 
 
