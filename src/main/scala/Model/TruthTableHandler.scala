@@ -7,21 +7,10 @@ class TruthTableHandler(rows: Int, cols: Int, symbols: Array[Char]) {
   var truthTable: Array[Array[Boolean]] = Array.ofDim[Boolean](rows, cols)
   var expressionEvaluator = new MyExpressionEvaluator()
 
-  def toBinary(n:Int, bin: List[Int] = List.empty[Int]): String = {
-    if(n / 2 == 1) (1:: (n % 2) :: bin).mkString(" ")
-    else {
-      val r = n % 2
-      val q = n / 2
-      toBinary(q, r::bin)
-    }
-  }
 
   def generateTruthTable(expression: String): Array[Array[Boolean]] = {
-    println("Generate Truth Table | expression: " + expression)
-    println("Rows: " + rows)
     for(subset <- 0 until rows){
-      //("Subset: " + subset)
-      //var subsetBits: String = toBinary(subset)
+
       var subsetBits: String = subset.toBinaryString
       var substitutedExpression: String = expression
 
@@ -34,7 +23,6 @@ class TruthTableHandler(rows: Int, cols: Int, symbols: Array[Char]) {
       }
       var i = 0
       for(symbol <- symbols){
-        println("SubsetBits symbol: " + symbol + " | i = " + i)
 
         substitutedExpression = substitutedExpression.replaceAll(symbol + "", subsetBits.charAt(i) + "")
         i = i + 1

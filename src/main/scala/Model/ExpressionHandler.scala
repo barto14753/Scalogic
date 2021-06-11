@@ -17,24 +17,19 @@ class ExpressionHandler(var expression: String) {
 
 
   def getFreqMap: mutable.HashMap[Char, Int] = {
-    //("Loading signs")
     for(c <- expression.toCharArray){
-      //println("Process: " + c)
       if(Character.isAlphabetic(c) && !c.equals('v') && !c.equals('V')) {
         if(freq.isDefinedAt(c)){
-          //println("Is already defined")
           var t = 0
           for(i <- freq.get(c)) { t = i }
           t += 1
           freq.put(c, t)
         }
         else {
-          //println("New sign")
           freq.put(c, 1)
         }
       }
     }
-    //println(freq)
     freq
   }
 
