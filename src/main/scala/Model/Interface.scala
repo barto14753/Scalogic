@@ -4,8 +4,7 @@ import scala.io.StdIn.readLine
 
 class Interface {
   var open = true
-
-  val logo = "  _________             .__                .__        " +
+  val logo: String = "  _________             .__                .__        " +
     "\n /   _____/ ____ _____  |  |   ____   ____ |__| ____  " +
     "\n \\_____  \\_/ ___\\\\__  \\ |  |  /  _ \\ / ___\\|  |/ ___\\ " +
     "\n /        \\  \\___ / __ \\|  |_(  <_> ) /_/  >  \\  \\___ " +
@@ -18,18 +17,22 @@ class Interface {
       println("Type your expression to get truth table")
       println("You can use:")
       println("- characters as variables")
-      println("- operators: v(or), ^(and), ~(not), >(implication)")
+      println("- operators: \n" +
+        "    v - (or)\n" +
+        "    ^ - (and)\n" +
+        "    ~ - (not)\n" +
+        "    > - (implication)")
       println("- closures: (, )")
-      println("Example: (~pvq)^r")
-      println("Type 'quit' to quit")
+      println("Example: (~p v q) ^ r")
+      println("Type 'quit' to quit\n")
   }
   def run(): Unit =
   {
       println(logo)
+      hello()
       while(open)
       {
-        hello()
-        var expression = readLine("Expression:")
+        var expression = readLine("Expression: ")
 
         if(expression == "quit") {
 
@@ -37,7 +40,9 @@ class Interface {
         }
         else{
           val expressionHandler = new ExpressionHandler(expression)
+          println("\n\n")
           expressionHandler.showTruthTable()
+          println("\n\n")
         }
       }
 

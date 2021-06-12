@@ -40,19 +40,20 @@ class MyExpressionEvaluator extends ExpressionEvaluator
         {
           var chars = expression.charAt(i).toString;
 
+
           if(!Symbol.isOperator(chars))
             {
               if(Symbol.isLeftClosure(chars))
                 {
-                  signs.push(chars);
+                  signs.push(chars)
                 }
               else if(Symbol.isRightClosure(chars))
                 {
-                  while(!Symbol.isLeftClosure(signs.top.toString)) {
-
+                  while(signs.nonEmpty && !Symbol.isLeftClosure(signs.top.toString)) {
                     operands.push(signs.pop());
                   }
                   signs.pop();
+
                 }
               else
                 {
@@ -103,7 +104,7 @@ class MyExpressionEvaluator extends ExpressionEvaluator
                                     {
                                     flag += 1;
                                     }
-                                }while(Symbol.isAnd(chars) && Symbol.isNot(sign) && flag ==0);
+                                }while(Symbol.isAnd(chars) && Symbol.isNot(sign) && flag == 0);
                               signs.push(chars);
                               flag = 0;
                             }
@@ -116,7 +117,7 @@ class MyExpressionEvaluator extends ExpressionEvaluator
                               operands.push(signs.pop());
                               if(signs.nonEmpty)
                                 {
-                                  sign = signs.pop.toString;
+                                  sign = signs.top.toString;
                                 }
                               else
                                 {
@@ -141,7 +142,7 @@ class MyExpressionEvaluator extends ExpressionEvaluator
                             operands.push(signs.pop)
                             if(signs.nonEmpty)
                             {
-                              sign = signs.pop.toString;
+                              sign = signs.top.toString;
                             }
                             else
                             {
@@ -160,7 +161,7 @@ class MyExpressionEvaluator extends ExpressionEvaluator
                           operands.push(signs.pop)
                           if(signs.nonEmpty)
                           {
-                            sign = signs.pop.toString;
+                            sign = signs.top.toString;
                           }
                           else
                           {
@@ -185,7 +186,7 @@ class MyExpressionEvaluator extends ExpressionEvaluator
                             operands.push(signs.pop());
                             if(signs.nonEmpty)
                             {
-                              sign = signs.pop.toString;
+                              sign = signs.top.toString;
                             }
                             else
                             {
@@ -204,7 +205,7 @@ class MyExpressionEvaluator extends ExpressionEvaluator
                           operands.push(signs.pop());
                           if(signs.nonEmpty)
                           {
-                            sign = signs.pop.toString;
+                            sign = signs.top.toString;
                           }
                           else
                           {
@@ -223,7 +224,7 @@ class MyExpressionEvaluator extends ExpressionEvaluator
                             operands.push(signs.pop());
                             if(signs.nonEmpty)
                             {
-                              sign = signs.pop.toString;
+                              sign = signs.top.toString;
                             }
                             else
                             {
@@ -238,7 +239,7 @@ class MyExpressionEvaluator extends ExpressionEvaluator
                         while(!Symbol.isRightClosure(sign))
                           {
                             operands.push(signs.pop());
-                            sign = signs.pop.toString;
+                            sign = signs.top.toString;
                           }
 
                       }
@@ -294,7 +295,7 @@ class MyExpressionEvaluator extends ExpressionEvaluator
                 {
                   if(Symbol.isNot(curr))
                     {
-                      throw new RuntimeErrorException(null);
+                      //throw new RuntimeErrorException(null);
                     }
                 }
             }
